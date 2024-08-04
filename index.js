@@ -1,14 +1,17 @@
 import pw from 'playwright';
 import retry from 'async-retry';
-
-//Helper Functions
-//Take screenshots and give us a nice log function
-const takeScreenshot = async (page, log, fullPage = false) => {
-  console.log(log ? log  : 'Taking screenshot...');
-  await page.screenshot({ path: 'screenshot.png', fullPage });
-};
+import ebayFunctions from './functions/ebayFunctions.js';
+import helperFunctions from './functions/helperFunctions.js';
 
 async function main(){
+  const rawLink = "https://www.ebay.com/itm/315444228994?itmmeta=01J4DHPDCQADVCM9FN6G5BP3D1&hash=item4971f0f382:g:lfsAAOSwq-9mby7~&itmprp=enc%3AAQAJAAAAwBELTXXOUL90%2FyrsYOsg7Vx2gh2kBVc3pDyRyed2zSDwGTNEwRTzGCe7qQlpccWN7TSBjq%2BG0R6Kqc9eGf4NbqKcaxXVJljGbnk46MuQXq5POhitBef0%2Fnn%2BOghZr%2BWLqCp9%2BGoNYkEFVcRdUthOygCHHKGqdBlo2dZsR4q2USrbet56Kd3p6q7iv3xxQGj%2BpoCL9AX593R%2BFr88DkP6LlV%2FSV56UDJ9pgNX3aycZarbUsdKoLDElzmWwqIXip0B5w%3D%3D%7Ctkp%3ABk9SR7bW2bGjZA"
+  const link = rawLink.split('?')[0];
+
+  if(!link.includes('ebay.com/itm')){
+    console.error('Invalid link');
+    return;
+  }
+
   console.log('starting...');
   const browser = await pw.chromium.launch(); //The video used connectOverCDP(and put credentials here)
   console.log('Created! Navigating...');
@@ -16,35 +19,17 @@ async function main(){
   const page = await browser.newPage();
 
   try{
-    const link = 'https://www.ebay.com/itm/186608995122';
-    await page.goto(link);
-    await takeScreenshot(page, 'Navigated! Scraping page content...');
-
-    const username = await page
-      .getByTestId('x-sellercard-atf')
-      .locator('.x-sellercard-atf__info__about-seller')
-      .first()
-      .getAttribute('title');
+    const username = await ebayFunctions.GetEbayUsername(page, link);
 
     console.log('Seller:', username);
-    //Try to go to other listings, but clicking is being stoopid
-    // const accountLink = await page.getByTestId('x-sellercard-atf').getByRole('link', { name: username }).first();
-    // accountLink.click();
-
-    await page.goto(`https://www.ebay.com/sch/?_ssn=${username}`);
-
-    var otherListings = await page.getByRole('list', ).locator('li.s-item').all();
-    //console.log('Other Listings:', otherListings.length);
-    otherListings.forEach(async (listing) => {
-      const title = await listing.locator('.s-item__title').innerText();
-      console.log('Title:', title);
-    });
-
-    await takeScreenshot(page, 'Loaded other listings');
+  
+    //await ListEbayOtherListings(page, username);
+    var userDetails = await ebayFunctions.GetEbayUserDetails(page, username);
+    console.log('User Details:', userDetails);
   }
   catch(err){
     //Take a screenshot
-    await takeScreenshot(page, 'Screenshot when we errored out');
+    await helperFunctions.takeScreenshot(page, 'Screenshot when we errored out', 'error');
     console.error('Error:', err);
   }
 
