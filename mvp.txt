@@ -1,0 +1,19 @@
+MVP:
+ - Get username, member since, rating, other listings, and price comparison
+ - How many items sold
+ - Conversation analysis
+ - Take all this info and generate a "Scam Score" out of 10
+ - Allow eBay and Facebook Marketplace
+ - Quick Tips:
+ 
+
+Version 2:
+ - Image comparison (are all images from the post of the same item?)
+ - AI description analysis
+ - Accepts returns?
+ - Have something free that anyone can use as a resource (Tips on what to do in certain situations)
+ - Car VIN checks and other car stuff
+
+Version 3:
+ - Allow people to upload images of any scam and help them determine whats up
+

@@ -4,6 +4,14 @@ import ebayFunctions from './functions/ebayFunctions.js';
 import helperFunctions from './functions/helperFunctions.js';
 
 async function main(){
+  
+}
+
+async function googleReverseImageSearchTest(){
+
+}
+
+async function ebayTesting(){
   const rawLink = "https://www.ebay.com/itm/315444228994?itmmeta=01J4DHPDCQADVCM9FN6G5BP3D1&hash=item4971f0f382:g:lfsAAOSwq-9mby7~&itmprp=enc%3AAQAJAAAAwBELTXXOUL90%2FyrsYOsg7Vx2gh2kBVc3pDyRyed2zSDwGTNEwRTzGCe7qQlpccWN7TSBjq%2BG0R6Kqc9eGf4NbqKcaxXVJljGbnk46MuQXq5POhitBef0%2Fnn%2BOghZr%2BWLqCp9%2BGoNYkEFVcRdUthOygCHHKGqdBlo2dZsR4q2USrbet56Kd3p6q7iv3xxQGj%2BpoCL9AX593R%2BFr88DkP6LlV%2FSV56UDJ9pgNX3aycZarbUsdKoLDElzmWwqIXip0B5w%3D%3D%7Ctkp%3ABk9SR7bW2bGjZA"
   const link = rawLink.split('?')[0];
 
